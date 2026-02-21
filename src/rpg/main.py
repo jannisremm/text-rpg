@@ -11,8 +11,8 @@
 # Keine Kampflogik hier implementieren. Nur orchestrieren.
 # main.py ist Dirigent, nicht Musiker.
 
-from enemy import Enemy
-from player import Player
+from rpg.enemy import Enemy
+from rpg.player import Player
 
 
 def main():

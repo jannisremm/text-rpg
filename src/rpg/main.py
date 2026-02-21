@@ -11,6 +11,7 @@
 # Keine Kampflogik hier implementieren. Nur orchestrieren.
 # main.py ist Dirigent, nicht Musiker.
 
+from enemy import Enemy
 from player import Player
 
 
@@ -22,6 +23,9 @@ def main():
 
     hero = Player(name, age)
     print(hero)
+
+    goblin = Enemy("Goblin", 8)
+    print(goblin)
 
 
 if __name__ == "__main__":

@@ -11,9 +11,17 @@
 # Keine Kampflogik hier implementieren. Nur orchestrieren.
 # main.py ist Dirigent, nicht Musiker.
 
+from player import Player
+
 
 def main():
     print("Hello from text-rpg!")
+
+    name = input("Enter your name: ")
+    age = input("Enter your age: ")
+
+    hero = Player(name, age)
+    print(hero)
 
 
 if __name__ == "__main__":

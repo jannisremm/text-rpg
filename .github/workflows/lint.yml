@@ -1,0 +1,22 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v1
+      - run: uv sync
+      - run: uv run ruff check .
+
+
+# Was passiert?
+
+# → Jeder Pull Request wird automatisch geprüft
+# → Wenn ruff Fehler findet → PR schlägt fehl
+# → Kein Merge möglich

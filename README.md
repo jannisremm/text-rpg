@@ -63,6 +63,8 @@ Dieses Projekt verwendet uv als Dependency-Manager.
 
 uv ersetzt pip und venv durch ein modernes, schnelleres Tool.
 
+<https://docs.astral.sh/uv/>
+
 ### Voraussetzungen
 
 - Python 3.11 oder höher
@@ -113,6 +115,9 @@ Lokal prüfen:
 
 uv run ruff check .
 
+Installation:
+<https://docs.astral.sh/ruff/installation/>
+
 #### Warum ruff?
 
 - Sehr schnell
@@ -126,6 +131,12 @@ Wenn ein Pull Request Lint-Fehler enthält, kann er nicht gemerged werden.
 ### Commit-Regeln (Conventional Commits)
 
 Wir verwenden das Format Conventional Commits.
+
+Übersicht:
+<https://www.conventionalcommits.org/en/v1.0.0/>
+
+Für VS-Code:
+<https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits>
 
 Warum?
 

@@ -90,6 +90,12 @@ Warum uv run?
 
 Damit wird garantiert, dass der Code innerhalb der Projektumgebung läuft.
 
+Wenn das nicht funktioniert, muss zuerst das packet lokal installiert werden:
+
+```uv pip install -e .```
+
+danach wird ```rpg``` importierbar.
+
 ## Entwicklungsworkflow
 
 Dieses Projekt folgt modernen Team-Standards.

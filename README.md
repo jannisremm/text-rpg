@@ -162,6 +162,7 @@ Das bedeutet:
 
 - Kein direktes Pushen möglich
 - Pull Request erforderlich
+  - Sollten nur von dev-Branch kommen
 - Automatische Checks müssen erfolgreich sein
 - Review kann erforderlich sein
 
@@ -173,13 +174,16 @@ Das schützt die Stabilität des Projekts.
 
 ## Pull Request Workflow
 
-1. Neues Feature-Branch erstellen
+1. Neues Feature-Branch erstellen von dev-Branch
 2. Änderungen machen
 3. Saubere Commits schreiben
-4. Pull Request öffnen
+4. Pull Request öffnen für dev-Branch
 5. Automatische Checks bestehen
 6. Review
 7. Merge
+8. Pull Request öffnen für main-Branch
+9. Review
+10. Merge & Versionsnummer aktualisieren
 
 ## Versionierung
 

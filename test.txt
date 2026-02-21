@@ -1,1 +1,2 @@
 this is a test text
+adding a test line to see if CommitLint runs now

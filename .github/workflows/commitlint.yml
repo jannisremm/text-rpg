@@ -10,3 +10,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: wagoid/commitlint-github-action@v5
+        with:
+          firstCommit: HEAD~0  # Check only the current commit

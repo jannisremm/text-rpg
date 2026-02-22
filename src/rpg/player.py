@@ -26,5 +26,6 @@ class Player:
         return f"Hi I am {self.name} and I am {self.age} years old!"
 
     def show_inventory(self):
-        string = " ".join(self.inventory)
-        return string
+        player_inventory = "You have on your person the following items: "
+        player_inventory += ", ".join(self.inventory)
+        return player_inventory

@@ -32,6 +32,8 @@ def main():
     hero = Player(name, age)
     print(hero)
 
+    print(hero.show_inventory())
+
     goblin = Enemy("Goblin", 8)
     print(goblin)
 

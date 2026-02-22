@@ -15,6 +15,9 @@
 
 
 class Player:
+    hitpoints = 100
+    inventory = ["Clothes", "Shoes", "Hat", "Gloves"]
+
     def __init__(self, name, age):
         self.name = name
         self.age = age
@@ -22,8 +25,7 @@ class Player:
     def __str__(self):
         return f"Hi I am {self.name} and I am {self.age} years old!"
 
-    def get_name(self):
-        return self.name
-
-    def get_age(self):
-        return self.age
+    def show_inventory(self):
+        player_inventory = "You have on your person the following items: "
+        player_inventory += ", ".join(self.inventory)
+        return player_inventory

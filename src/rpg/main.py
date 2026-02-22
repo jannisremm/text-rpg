@@ -11,12 +11,20 @@
 # Keine Kampflogik hier implementieren. Nur orchestrieren.
 # main.py ist Dirigent, nicht Musiker.
 
+import random
+
 from rpg.enemy import Enemy
 from rpg.player import Player
+from rpg.world import Room
 
 
 def main():
     print("Hello from text-rpg!")
+    print(
+        "You wake up to find yourself in an unfamiliar place. You stand up and have a look around."
+    )
+    first_room = Room(random.choice(["small", "medium", "large"]))
+    print(first_room.description)
 
     name = input("Enter your name: ")
     age = input("Enter your age: ")

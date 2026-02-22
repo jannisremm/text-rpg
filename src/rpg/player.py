@@ -21,9 +21,3 @@ class Player:
 
     def __str__(self):
         return f"Hi I am {self.name} and I am {self.age} years old!"
-
-    def get_name(self):
-        return self.name
-
-    def get_age(self):
-        return self.age

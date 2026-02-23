@@ -13,6 +13,8 @@
 # noch eine Zeile Kommentar
 # Und hier noch einer :)
 # yo was geht ab
+# skduhsaiduhas
+# sdjhcsdkjhjksdhfj
 
 import random
 

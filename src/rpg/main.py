@@ -12,6 +12,7 @@
 # main.py ist Dirigent, nicht Musiker.
 # noch eine Zeile Kommentar
 # Und hier noch einer :)
+# yo was geht ab
 
 import random
 

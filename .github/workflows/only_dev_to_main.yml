@@ -4,14 +4,16 @@ on:
   pull_request:
     branches:
       - main
+      - dev
 
 jobs:
   check-branch:
+    if: github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Ensure PR is from dev
         run: |
-          if [ "${{ github.head_ref }}" != "dev" ]; then
-            echo "Only pull requests from 'dev' to 'main' are allowed."
+          if [ "${{ github.event.pull_request.head.ref }}" != "dev" ]; then
+            echo "Only pull requests from 'dev' into 'main' are allowed. Change your PR base to 'dev' or merge into 'dev' first."
             exit 1
           fi

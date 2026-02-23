@@ -47,3 +47,5 @@ def map_generator(width, height):
 
 
 map_generator(30, 20)
+
+# hier ist ein kommentar

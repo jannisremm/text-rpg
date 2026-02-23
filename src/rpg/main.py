@@ -15,7 +15,7 @@
 # yo was geht ab
 # skduhsaiduhas
 # sdjhcsdkjhjksdhfj
-
+# Dies wird ein Konflikt aaahhh
 import random
 
 from rpg.enemy import Enemy

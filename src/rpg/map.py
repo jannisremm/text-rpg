@@ -16,6 +16,9 @@ def map_generator(width, height):
     square4_y_start = random.randint(height // 2, height - 4)
     square4_size = random.randint(min(height, width) // 4, min(height, width) // 2)
 
+
+# Kommentar
+
     for y in range(height):
         line = []
         for x in range(width):

@@ -14,6 +14,8 @@
 #     Seed-basierte Generierung
 # hineinkommen.
 
+# kommentar
+
 import random
 
 

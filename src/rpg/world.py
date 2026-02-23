@@ -154,9 +154,11 @@ general_items = [
 ]
 
 
-small_room = Room("small")
-print(small_room.description)
-medium_room = Room("medium")
-print(medium_room.description)
-large_room = Room("large")
-print(large_room.description)
+if __name__ == "__main__":
+    print("Sample room descriptions:")
+    small_room = Room("small")
+    print(small_room.description)
+    medium_room = Room("medium")
+    print(medium_room.description)
+    large_room = Room("large")
+    print(large_room.description)

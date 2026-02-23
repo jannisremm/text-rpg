@@ -17,3 +17,7 @@ wheels/
 
 # MacOS files
 .DS_Store
+
+# Passwörter
+.ini
+.env

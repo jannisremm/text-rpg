@@ -67,7 +67,7 @@ uv ersetzt pip und venv durch ein modernes, schnelleres Tool.
 
 ### Voraussetzungen
 
-- Python 3.11 oder höher
+- Python 3.12
 - uv installiert
 
 ### Projekt einrichten

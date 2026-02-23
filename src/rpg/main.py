@@ -10,7 +10,7 @@
 # Wichtig:
 # Keine Kampflogik hier implementieren. Nur orchestrieren.
 # main.py ist Dirigent, nicht Musiker.
-# noch eine Zeile Kommentar
+# noch eine Zeile Kommentar 
 
 import random
 

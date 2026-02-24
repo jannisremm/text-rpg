@@ -12,7 +12,7 @@
 #     add_item()
 
 # Hier lebt die Identität des Spielers.
-
+# kommentar
 
 class Player:
     hitpoints = 100

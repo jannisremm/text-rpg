@@ -10,3 +10,4 @@
 # Weil sie später perfekt testbar wird.
 
 # Wenn hier keine input()-Aufrufe drin sind, könnt ihr sie isoliert prüfen.
+# kommentar

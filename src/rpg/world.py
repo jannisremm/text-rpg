@@ -16,14 +16,40 @@
 
 import random
 
+from rpg.llm_integration import generate_description
+
 
 class Room:
     def __init__(self, size):
         self.size = size
-        self.description = generate_description(size)
+        self.description = generate_contents(size)
+        self.ai_description = None
+
+    def get_ai_description(self):
+        if self.ai_description is None:
+            self.ai_description = generate_description(
+                {
+                    "size": self.size,
+                    "lighting": "torches on the wall",
+                    "temperature": "low",
+                    "humidity": "high",
+                    "contents": [
+                        "cracked bed",
+                        "bundle of blankets",
+                        "torn pillow",
+                        "small bedside table",
+                        "sack of old clothes",
+                        "candles arranged in a circle",
+                        "pile of bones",
+                        "group of strange runes carved into the floor",
+                        "shattered mirror",
+                    ],
+                }
+            )
+        return self.ai_description
 
 
-def generate_description(room_size):
+def generate_contents(room_size):
     room_type = random.randrange(len(thematic_rooms))
     match room_size:
         case "small":
@@ -158,7 +184,15 @@ if __name__ == "__main__":
     print("Sample room descriptions:")
     small_room = Room("small")
     print(small_room.description)
-    medium_room = Room("medium")
-    print(medium_room.description)
-    large_room = Room("large")
-    print(large_room.description)
+    print("")
+    print(small_room.get_ai_description())
+    print("")
+    print(small_room.get_ai_description())
+    print("")
+    # medium_room = Room("medium")
+    # print(medium_room.description)
+    # print("")
+    # print(medium_room.ai_description)
+    # print("")
+    # large_room = Room("large")
+    # print(large_room.description)

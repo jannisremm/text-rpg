@@ -9,24 +9,46 @@
 #     Effekt definieren
 #     Anwendung auf Spieler, Gegner oder Welt
 
+from rpg.llm_integration import generate_description
+
 
 class Item:
     """This class contains all basic properties of all items, which all items should inherit from"""
 
-    def __init__(self, name, weight=0, value=0, size="small", ai_description="No description yet"):
+    def __init__(
+        self,
+        name,
+        weight=0,
+        value=0,
+        size="small",
+        condition=85,
+    ):
 
         self.name = name
         self.weight = weight
         self.value = value
         self.size = size
-        self.ai_description = ai_description  # Placeholder for future idea:
-        # pass item properties to llm to generate unique description for each item
-        self.condition = 100  # as a percentage, where 100 is mint condition
+        self.condition = condition
+        self.ai_description = None
 
     def __str__(self) -> str:
         item_description = f"It is a {self.name}, it looks {self.size} and {self.weight}, "
         f"and has a value of {self.value}"
         return item_description
+
+    def create_prompt_dict(self):
+        return {
+            "item": self.name,
+            "weight": self.weight,
+            "value": self.value,
+            "size": self.size,
+            "condition": self.condition,
+        }
+
+    def get_ai_description(self):
+        if self.ai_description is None:
+            self.ai_description = generate_description(self.create_prompt_dict())
+        return self.ai_description
 
 
 class Potion(Item):
@@ -64,12 +86,43 @@ class Poison(Potion):
         return self.damage
 
 
+class Sword(Item):
+    def __init__(
+        self,
+        name,
+        weight=0,
+        value=0,
+        size="medium",
+        condition=85,
+    ):
+
+        super().__init__(name, weight, value, size, condition)
+        self.base_damage = 12
+        self.damage = int(self.base_damage * self.condition / 100)
+
+    def create_prompt_dict(self):
+        prompt_dict = super().create_prompt_dict()
+        prompt_dict["damage"] = self.damage
+        return prompt_dict
+
+
 if __name__ == "__main__":
-    red_potion = HealingPotion("health potion", 1, 12, "small", "", 7)
+    # red_potion = HealingPotion("health potion", 1, 12, "small", "", 7)
 
-    red_potion.inspect()
-    red_potion.drink_potion()
+    # red_potion.inspect()
+    # red_potion.drink_potion()
 
-    green_potion = Poison("Cyanide", 1, 8, "medium", "", 9)
-    green_potion.inspect()
-    green_potion.drink_potion()
+    # green_potion = Poison("Cyanide", 1, 8, "medium", "", 9)
+    # green_potion.inspect()
+    # green_potion.drink_potion()
+
+    # print(red_potion.ai_description)
+    # print(green_potion.ai_description)
+
+    guard_sword = Sword("guard sword", 1, 10, "medium", 60)
+
+    print(guard_sword.get_ai_description())
+
+    golden_sword = Sword("sword with inticate gold patterning", 1, 500, "large", 98)
+
+    print(golden_sword.get_ai_description())

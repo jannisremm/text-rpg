@@ -52,8 +52,8 @@ class Item:
 
 
 class Potion(Item):
-    def __init__(self, name, weight, value, size, description):
-        super().__init__(name, weight, value, size, description)
+    def __init__(self, name, weight, value, size, condition):
+        super().__init__(name, weight, value, size, condition)
 
     def inspect(self):
         print(f"It looks like you can drink this {self.size} bottle of {self.name}")

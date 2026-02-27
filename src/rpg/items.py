@@ -209,8 +209,8 @@ class Sword(Item):
         weight=None,
         value=None,
         size="medium",
-        condition=None,
-        base_damage=None,
+        condition=75,
+        base_damage=10,
         rarity="common",
         flavourtext="standard issue guard sword",
     ):

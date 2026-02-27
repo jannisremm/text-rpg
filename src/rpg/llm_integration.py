@@ -14,18 +14,52 @@ from openai import OpenAI
 load_dotenv()
 client = OpenAI()
 
-SYSTEM_PROMPT = """
+INSTRUCTIONS = """
 Generate a brief description for use is a low fantasy text based roleplaying game.
 The description will be used as flavourtext for items, locations, characters etc.
 Never mention exact numbers from the properties, use the stats only to influence tone and vibe. 
-Keep everything immersive and grounded."""
+Keep everything immersive and grounded. Deviation labels describe how unusual a property is relative
+to the typical item of that type. Emphasize properties that are highly unusual.
+Do not dwell on properties marked as "about average". 
+If a property is unusually high or low, you may invent a subtle, 
+plausible explanation grounded in the setting. Do not contradict the item's stated properties."""
 
 
-def generate_description(properties: dict, gptmodel="gpt-5.2"):
+def generate_description(properties: dict, interest_score=0, gptmodel="gpt-5.2"):
+
+    if interest_score <= 2:
+        length_instruction = "Write a brief, factual and mundane description (1 sentence)."
+
+    elif interest_score <= 4:
+        length_instruction = "Write a detailed yet grounded description (2 sentences)"
+    elif interest_score <= 6:
+        length_instruction = "Write a detialed and interesting description (3 sentences)."
+    else:
+        length_instruction = (
+            "Write a rich, detailed imaginative description with flowery language (5 sentences)."
+        )
+
+    llm_instructions = INSTRUCTIONS + length_instruction
+
     item_block = "\n".join(f"{key}:{value}" for key, value in properties.items())
 
-    prompt = f"""{SYSTEM_PROMPT} Here are the properties: {item_block}"""
-    ai_description = client.responses.create(model=gptmodel, input=prompt)
+    prompt = f"""{item_block}"""
+
+    reasoning_level = (
+        {"effort": "high"}
+        if properties["rarity"] == "legendary"
+        else {"effort": "medium"}
+        if properties["rarity"] == "rare"
+        else {"effort": "low"}
+    )
+    print("------------------LLM INPUT------------------")
+    print(llm_instructions)
+    print(properties)
+    print(interest_score)
+    print(reasoning_level)
+    ai_description = client.responses.create(
+        model=gptmodel, instructions=llm_instructions, input=prompt, reasoning=reasoning_level
+    )
     return ai_description.output_text
 
 

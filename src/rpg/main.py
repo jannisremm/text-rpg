@@ -11,10 +11,9 @@
 # Keine Kampflogik hier implementieren. Nur orchestrieren.
 # main.py ist Dirigent, nicht Musiker.
 
-import random
 
 from rpg.player import Player
-from rpg.world import Room
+from rpg.world import generate_level
 
 
 def main():
@@ -25,27 +24,38 @@ def main():
     hero = Player(name, age)
 
     print("You wake up to find yourself in an unfamiliar place.")
-    first_room = Room(random.choice(["small", "medium", "large"]))
-    second_room = Room(random.choice(["small", "medium", "large"]))
-    print(first_room.description)
+    level = generate_level(5)
+    current_room = 0
+    number_of_rooms = len(level)
 
     print("What do you want to do?")
     print("1 - Look around")
     print("2 - Open inventory")
-    print("3 - Open the door")  # this should dynamically load the entrances and exits to the room
-    print("4 - Have a nap")
+    print("3 - Open the door in front of you")
+    print("4 - Go back to the previous room")
+    print("5 - Have a nap")
 
     while True:
         player_choice = input("Enter the number of the action you want to do")
         match player_choice:
             case "1":
-                print(first_room.description)
+                print(level[current_room].description)
             case "2":
                 print(hero.show_inventory())
             case "3":
-                print("You enter the next room")
-                print(second_room.description)
+                if current_room == number_of_rooms - 1:
+                    print("This room only has the door you just came from,")
+                    print("there must be some other way to get out of here")
+                else:
+                    print("You open the door in front of you and enter the next room")
+                    current_room += 1
             case "4":
+                if current_room == 0:
+                    print("This is the room you woke up in, there is only the door in front of you")
+                else:
+                    current_room -= 1
+                    print("You go back into the room you just came from")
+            case "5":
                 print("You take a short break")
                 break
             case _:

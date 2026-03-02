@@ -16,74 +16,62 @@
 
 import random
 
-from rpg.llm_integration import generate_description
+from rpg.llm_integration import generate_room_description
 
 
 class Room:
     def __init__(self, size, room_type=None):
         self.size = size
-        self.description = generate_contents(size)
+        self.room_type = room_type
+        (
+            self.room_ambience,
+            self.room_structural_features,
+            self.room_themematic_items,
+            self.room_items,
+        ) = generate_description2(self.size, self.room_type)
         self.ai_description = None
 
     def get_ai_description(self):
         if self.ai_description is None:
-            self.ai_description = generate_description(
-                {
-                    "size": self.size,
-                    "lighting": "torches on the wall",
-                    "temperature": "low",
-                    "humidity": "high",
-                    "contents": [
-                        "cracked bed",
-                        "bundle of blankets",
-                        "torn pillow",
-                        "small bedside table",
-                        "sack of old clothes",
-                        "candles arranged in a circle",
-                        "pile of bones",
-                        "group of strange runes carved into the floor",
-                        "shattered mirror",
-                    ],
-                }
+            self.ai_description = generate_room_description(
+                self.size,
+                self.room_ambience,
+                self.room_structural_features,
+                self.room_themematic_items,
+                self.room_items,
             )
         return self.ai_description
 
 
-def generate_contents(room_size):
-    room_type = random.randrange(len(thematic_rooms))
-        self.room_type = room_type
-        self.description = generate_description2(size, room_type)
-
-
-def generate_description(room_size, room_type=None):
-    if room_type is None:
-        room_type = random.randrange(len(thematic_rooms))
-    match room_size:
-        case "small":
-            room_description = (
-                f"The small room contains a {random.choice(thematic_rooms[room_type])}"
-                f" and a {random.choice(general_items[random.randint(0, len(general_items) - 1)])}"
-            )
-            return room_description
-        case "medium":
-            room_description = (
-                f"The medium sized room contains a {random.choice(thematic_rooms[room_type])},"
-                f" a {random.choice(thematic_rooms[room_type])},"
-                f" a {random.choice(general_items[random.randint(0, 4)])},"
-                f" and a {random.choice(general_items[random.randint(0, 4)])}"
-            )
-            return room_description
-        case "large":
-            room_type = random.randint(0, 5)
-            room_description = (
-                f"The large room contains a {random.choice(thematic_rooms[room_type])},"
-                f" a {random.choice(thematic_rooms[room_type])},"
-                f" a {random.choice(thematic_rooms[room_type])},"
-                f" a {random.choice(general_items[random.randint(0, 4)])},"
-                f" a {random.choice(general_items[random.randint(0, 4)])},"
-                f" and a {random.choice(general_items[random.randint(0, 4)])}"
-            )
-            return room_description
+# def generate_description(room_size, room_type=None):
+#     if room_type is None:
+#         room_type = random.randrange(len(thematic_rooms))
+#     match room_size:
+#         case "small":
+#             room_description = (
+#                 f"The small room contains a {random.choice(thematic_rooms[room_type])}"
+#                 f" and a {random.choice(general_items[random.randint(0, len(general_items) - 1)])}"
+#             )
+#             return room_description
+#         case "medium":
+#             room_description = (
+#                 f"The medium sized room contains a {random.choice(thematic_rooms[room_type])},"
+#                 f" a {random.choice(thematic_rooms[room_type])},"
+#                 f" a {random.choice(general_items[random.randint(0, 4)])},"
+#                 f" and a {random.choice(general_items[random.randint(0, 4)])}"
+#             )
+#             return room_description
+#         case "large":
+#             room_type = random.randint(0, 5)
+#             room_description = (
+#                 f"The large room contains a {random.choice(thematic_rooms[room_type])},"
+#                 f" a {random.choice(thematic_rooms[room_type])},"
+#                 f" a {random.choice(thematic_rooms[room_type])},"
+#                 f" a {random.choice(general_items[random.randint(0, 4)])},"
+#                 f" a {random.choice(general_items[random.randint(0, 4)])},"
+#                 f" and a {random.choice(general_items[random.randint(0, 4)])}"
+#             )
+#             return room_description
 
 
 def generate_description2(room_size=None, room_type=None):
@@ -118,6 +106,7 @@ def generate_description2(room_size=None, room_type=None):
         f"Room abience: {room_ambience}, room features: {room_structural_features},"
         f"items: {room_themematic_items}, {room_items}"
     )
+    return room_ambience, room_structural_features, room_themematic_items, room_items
 
 
 def generate_level(number_of_roooms):
@@ -433,17 +422,33 @@ general_items_2 = [
 
 if __name__ == "__main__":
     print("Sample room descriptions:")
+    print("")
     small_room = Room("small")
-    print(small_room.description)
+    # print(
+    #     small_room.room_ambience,
+    #     small_room.room_structural_features,
+    #     small_room.room_themematic_items,
+    #     small_room.room_items,
+    # )
     print("")
     print(small_room.get_ai_description())
     print("")
-    print(small_room.get_ai_description())
+    medium_room = Room("medium")
+    # print(
+    #     medium_room.room_ambience,
+    #     medium_room.room_structural_features,
+    #     medium_room.room_themematic_items,
+    #     medium_room.room_items,
+    # )
     print("")
-    # medium_room = Room("medium")
-    # print(medium_room.description)
-    # print("")
-    # print(medium_room.ai_description)
-    # print("")
-    # large_room = Room("large")
-    # print(large_room.description)
+    print(medium_room.get_ai_description())
+    print("")
+    large_room = Room("large")
+    # print(
+    #     large_room.room_ambience,
+    #     large_room.room_structural_features,
+    #     large_room.room_themematic_items,
+    #     large_room.room_items,
+    # )
+    print("")
+    print(large_room.get_ai_description())

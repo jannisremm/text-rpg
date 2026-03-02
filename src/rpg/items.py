@@ -142,7 +142,7 @@ class Item:
                     self.item_profile.mean_condition,
                     self.item_profile.std_condition,
                 )
-            print(data)
+            # print(data)
             return data
 
     def create_interest_score(self):

@@ -14,15 +14,27 @@ from openai import OpenAI
 load_dotenv()
 client = OpenAI()
 
-INSTRUCTIONS = """
+ITEM_INSTRUCTIONS = """
 Generate a brief description for use is a low fantasy text based roleplaying game.
-The description will be used as flavourtext for items, locations, characters etc.
+The description will be used as flavourtext for an item.
 Never mention exact numbers from the properties, use the stats only to influence tone and vibe. 
 Keep everything immersive and grounded. Deviation labels describe how unusual a property is relative
 to the typical item of that type. Emphasize properties that are highly unusual.
 Do not dwell on properties marked as "about average". 
 If a property is unusually high or low, you may invent a subtle, 
-plausible explanation grounded in the setting. Do not contradict the item's stated properties."""
+plausible explanation grounded in the setting. Do not contradict the item's stated properties.
+The descriptions should be written in a gothic horror style, 
+similar to HP Lovecraft or Edgar Allen Poe.
+"""
+ROOM_INSTRUCTIONS = """
+Generate a brief description for use is a low fantasy text based roleplaying game.
+The description will be used as flavourtext for a room.
+You may invent a subtle, plausible explanaitions grounded in the setting
+for why items are in the room,or what might have happened within.
+Do not invent new items or features
+The descriptions should be written in a gothic horror style, 
+similar to HP Lovecraft or Edgar Allen Poe.
+"""
 
 
 def generate_description(properties: dict, interest_score=0, gptmodel="gpt-5.2"):
@@ -39,7 +51,7 @@ def generate_description(properties: dict, interest_score=0, gptmodel="gpt-5.2")
             "Write a rich, detailed imaginative description with flowery language (5 sentences)."
         )
 
-    llm_instructions = INSTRUCTIONS + length_instruction
+    llm_instructions = ITEM_INSTRUCTIONS + length_instruction
 
     item_block = "\n".join(f"{key}:{value}" for key, value in properties.items())
 
@@ -52,11 +64,37 @@ def generate_description(properties: dict, interest_score=0, gptmodel="gpt-5.2")
         if properties["rarity"] == "rare"
         else {"effort": "low"}
     )
-    print("------------------LLM INPUT------------------")
-    print(llm_instructions)
-    print(properties)
-    print(interest_score)
-    print(reasoning_level)
+    # print("------------------LLM INPUT------------------")
+    # print(llm_instructions)
+    # print(properties)
+    # print(interest_score)
+    # print(reasoning_level)
+    ai_description = client.responses.create(
+        model=gptmodel, instructions=llm_instructions, input=prompt, reasoning=reasoning_level
+    )
+    return ai_description.output_text
+
+
+def generate_room_description(
+    room_size,
+    room_ambience,
+    room_structural_features,
+    room_themematic_items,
+    room_items,
+    gptmodel="gpt-5.2",
+    reasoning_level={"effort": "high"},
+):
+    if room_size == "small":
+        room_size_modifier = "The description should be two sentences long."
+    elif room_size == "medium":
+        room_size_modifier = "The description should be four sentences long"
+    else:
+        room_size_modifier = "The description should be six sentences long"
+    llm_instructions = ROOM_INSTRUCTIONS + room_size_modifier
+    prompt = f"""room ambience: {room_ambience}
+    strucural features: {room_structural_features}
+    thematic items: {room_themematic_items}
+    general items: {room_items}"""
     ai_description = client.responses.create(
         model=gptmodel, instructions=llm_instructions, input=prompt, reasoning=reasoning_level
     )

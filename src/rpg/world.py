@@ -51,6 +51,13 @@ class Room:
 
 def generate_contents(room_size):
     room_type = random.randrange(len(thematic_rooms))
+        self.room_type = room_type
+        self.description = generate_description2(size, room_type)
+
+
+def generate_description(room_size, room_type=None):
+    if room_type is None:
+        room_type = random.randrange(len(thematic_rooms))
     match room_size:
         case "small":
             room_description = (

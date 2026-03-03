@@ -102,10 +102,15 @@ def generate_description2(room_size=None, room_type=None):
             room_themematic_items = random.sample(thematic_items[room_type], k=6)
             room_items = random.sample(general_items_2, k=6)
 
-    print(
-        f"Room abience: {room_ambience}, room features: {room_structural_features},"
-        f"items: {room_themematic_items}, {room_items}"
-    )
+        case _:
+            room_structural_features = random.sample(structural_features, k=4)
+            room_themematic_items = random.sample(thematic_items[room_type], k=4)
+            room_items = random.sample(general_items_2, k=4)
+
+    # print(
+    #     f"Room abience: {room_ambience}, room features: {room_structural_features},"
+    #     f"items: {room_themematic_items}, {room_items}"
+    # )
     return room_ambience, room_structural_features, room_themematic_items, room_items
 
 

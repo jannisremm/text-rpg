@@ -114,11 +114,11 @@ def generate_description2(room_size=None, room_type=None):
     return room_ambience, room_structural_features, room_thematic_items, room_items
 
 
-def generate_level(number_of_roooms):
+def generate_level(number_of_rooms):
     room_list = []
     starting_room = Room("medium", 0)
     room_list.append(starting_room)
-    for room in range(number_of_roooms - 1):
+    for room in range(number_of_rooms - 1):
         size = random.choice(["small", "medium", "large"])
         room = Room(size)
         room_list.append(room)

@@ -79,7 +79,7 @@ def generate_room_description(
     room_size,
     room_ambience,
     room_structural_features,
-    room_themematic_items,
+    room_thematic_items,
     room_items,
     gptmodel="gpt-5.2",
     reasoning_level={"effort": "high"},
@@ -93,7 +93,7 @@ def generate_room_description(
     llm_instructions = ROOM_INSTRUCTIONS + room_size_modifier
     prompt = f"""room ambience: {room_ambience}
     strucural features: {room_structural_features}
-    thematic items: {room_themematic_items}
+    thematic items: {room_thematic_items}
     general items: {room_items}"""
     ai_description = client.responses.create(
         model=gptmodel, instructions=llm_instructions, input=prompt, reasoning=reasoning_level

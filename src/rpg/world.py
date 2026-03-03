@@ -26,7 +26,7 @@ class Room:
         (
             self.room_ambience,
             self.room_structural_features,
-            self.room_themematic_items,
+            self.room_thematic_items,
             self.room_items,
         ) = generate_description2(self.size, self.room_type)
         self.ai_description = None
@@ -37,7 +37,7 @@ class Room:
                 self.size,
                 self.room_ambience,
                 self.room_structural_features,
-                self.room_themematic_items,
+                self.room_thematic_items,
                 self.room_items,
             )
         return self.ai_description
@@ -83,35 +83,35 @@ def generate_description2(room_size=None, room_type=None):
 
     room_ambience = random.choice(ambiences)
     room_structural_features = []
-    room_themematic_items = []
+    room_thematic_items = []
     room_items = []
 
     match room_size:
         case "small":
             room_structural_features = random.sample(structural_features, k=2)
-            room_themematic_items = random.sample(thematic_items[room_type], k=2)
+            room_thematic_items = random.sample(thematic_items[room_type], k=2)
             room_items = random.sample(general_items_2, k=2)
 
         case "medium":
             room_structural_features = random.sample(structural_features, k=4)
-            room_themematic_items = random.sample(thematic_items[room_type], k=4)
+            room_thematic_items = random.sample(thematic_items[room_type], k=4)
             room_items = random.sample(general_items_2, k=4)
 
         case "large":
             room_structural_features = random.sample(structural_features, k=6)
-            room_themematic_items = random.sample(thematic_items[room_type], k=6)
+            room_thematic_items = random.sample(thematic_items[room_type], k=6)
             room_items = random.sample(general_items_2, k=6)
 
         case _:
             room_structural_features = random.sample(structural_features, k=4)
-            room_themematic_items = random.sample(thematic_items[room_type], k=4)
+            room_thematic_items = random.sample(thematic_items[room_type], k=4)
             room_items = random.sample(general_items_2, k=4)
 
     # print(
     #     f"Room abience: {room_ambience}, room features: {room_structural_features},"
-    #     f"items: {room_themematic_items}, {room_items}"
+    #     f"items: {room_thematic_items}, {room_items}"
     # )
-    return room_ambience, room_structural_features, room_themematic_items, room_items
+    return room_ambience, room_structural_features, room_thematic_items, room_items
 
 
 def generate_level(number_of_roooms):
@@ -432,7 +432,7 @@ if __name__ == "__main__":
     # print(
     #     small_room.room_ambience,
     #     small_room.room_structural_features,
-    #     small_room.room_themematic_items,
+    #     small_room.room_thematic_items,
     #     small_room.room_items,
     # )
     print("")
@@ -442,7 +442,7 @@ if __name__ == "__main__":
     # print(
     #     medium_room.room_ambience,
     #     medium_room.room_structural_features,
-    #     medium_room.room_themematic_items,
+    #     medium_room.room_thematic_items,
     #     medium_room.room_items,
     # )
     print("")
@@ -452,7 +452,7 @@ if __name__ == "__main__":
     # print(
     #     large_room.room_ambience,
     #     large_room.room_structural_features,
-    #     large_room.room_themematic_items,
+    #     large_room.room_thematic_items,
     #     large_room.room_items,
     # )
     print("")

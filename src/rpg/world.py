@@ -118,7 +118,7 @@ def generate_level(number_of_roooms):
     room_list = []
     starting_room = Room("medium", 0)
     room_list.append(starting_room)
-    for room in range(number_of_roooms):
+    for room in range(number_of_roooms - 1):
         size = random.choice(["small", "medium", "large"])
         room = Room(size)
         room_list.append(room)

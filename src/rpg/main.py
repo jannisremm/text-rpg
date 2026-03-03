@@ -39,7 +39,7 @@ def main():
         player_choice = input("Enter the number of the action you want to do")
         match player_choice:
             case "1":
-                print(level[current_room].description)
+                print(level[current_room].get_ai_description())
             case "2":
                 print(hero.show_inventory())
             case "3":

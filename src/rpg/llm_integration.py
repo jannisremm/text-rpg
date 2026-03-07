@@ -2,6 +2,8 @@
 # mit der Beschreibungen für Objekte, Räume, Gegner etc. generiert werden
 
 
+import random
+
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -15,47 +17,96 @@ load_dotenv()
 client = OpenAI()
 
 ITEM_INSTRUCTIONS = """
-Generate a brief description for use is a low fantasy text based roleplaying game.
-The description will be used as flavourtext for an item.
-Never mention exact numbers from the properties, use the stats only to influence tone and vibe. 
-Keep everything immersive and grounded. Deviation labels describe how unusual a property is relative
-to the typical item of that type. Emphasize properties that are highly unusual.
-Do not dwell on properties marked as "about average". 
-If a property is unusually high or low, you may invent a subtle, 
-plausible explanation grounded in the setting. Do not contradict the item's stated properties.
-The descriptions should be written in a gothic horror style, 
-similar to HP Lovecraft or Edgar Allen Poe.
+You are writing flavour text for a low-fantasy, gothic-horror text RPG.
+Your output must feel handcrafted, grounded, and varied.
+
+Hard constraints:
+- Return prose only. No lists, labels, headings, quotation marks, or meta commentary.
+- Never mention exact numeric values, percentages, currency symbols, equations, or stat names.
+- Do not mention game terms like "player", "inventory", "rarity tier", "interest score", or "deviation label".
+- Do not contradict provided item properties.
+- If a property is about average, keep it subtle.
+- If a property is unusual, imply it through material, wear, balance, craftsmanship, provenance, or aura.
+
+Variety rules:
+- Avoid repetitive openings ("This item...", "You see...", "It appears...").
+- Vary sentence rhythm and structure across generations.
+- Change descriptive angle each time (craftsmanship, prior owner traces, practical use, hidden history, quiet menace).
+- Prefer concrete nouns and verbs over stacked adjectives.
+- Keep tone restrained: eerie and evocative, never melodramatic.
+
+Style target:
+- Gothic horror atmosphere inspired by Lovecraft/Poe, but concise and readable.
 """
 ROOM_INSTRUCTIONS = """
-Generate a brief description for use is a low fantasy text based roleplaying game.
-The description will be used as flavourtext for a room.
-You may invent a subtle, plausible explanaitions grounded in the setting
-for why items are in the room,or what might have happened within.
-Do not invent new items or features
-The descriptions should be written in a gothic horror style, 
-similar to HP Lovecraft or Edgar Allen Poe.
+You are writing room flavour text for a low-fantasy, gothic-horror text RPG.
+Describe the first moments after entering a room.
+
+Hard constraints:
+- Write in second person ("you").
+- Return prose only. No lists, headings, labels, or meta text.
+- Mention only the provided ambience, structural features, thematic items, and general items.
+- You may infer plausible placement/history, but do not invent additional named objects or architecture.
+- Keep the room believable as recently abandoned (days, not long-decayed ages), unless input strongly implies otherwise.
+
+Composition rules:
+- Blend ambience, structure, and items naturally; do not list categories.
+- Place items in sensible positions (shelved, hung, stacked, wedged, laid out, half-hidden).
+- Highlight a few striking details and let the rest support atmosphere.
+- Vary openings and cadence: sometimes start with sound/smell/light/temperature, other times with spatial layout.
+- Avoid repeated templates and mirrored sentence patterns between generations.
+- End with a subtle hook that invites curiosity without adding new concrete objects.
+
+Style target:
+- Gothic horror atmosphere inspired by Lovecraft/Poe, grounded and immersive.
 """
+
+ITEM_VARIATION_STEERS = [
+    "This description should focus on tactile detail and craftsmanship first, then implication.",
+    "This description should hint at a prior owner through traces of use or neglect.",
+    "This description should foreground practical function before mood.",
+    "This description should center on one uncanny detail while remaining grounded.",
+    "This description should imply history through subtle cause-and-effect clues.",
+]
+
+ROOM_VARIATION_STEERS = [
+    "Open with sensory detail (sound, smell, light, or temperature), then widen to layout.",
+    "Open with room layout and movement path, then reveal notable objects.",
+    "Move from structural features to thematic items, then to general items.",
+    "Start with a quiet unsettling detail, then anchor it with practical room logic.",
+    "Describe details as if your gaze is scanning left to right across the room.",
+]
 
 
 def generate_description(properties: dict, interest_score=0, gptmodel="gpt-5.2"):
 
     if interest_score <= 2:
-        length_instruction = "Write a brief, factual and mundane description (1 sentence)."
-
-    elif interest_score <= 4:
-        length_instruction = "Write a detailed yet grounded description (2 sentences)"
-    elif interest_score <= 6:
-        length_instruction = "Write a detialed and interesting description (3 sentences)."
-    else:
         length_instruction = (
-            "Write a rich, detailed imaginative description with flowery language (5 sentences)."
+            "Length: exactly 1 sentence, compact and concrete."
         )
 
-    llm_instructions = ITEM_INSTRUCTIONS + length_instruction
+    elif interest_score <= 4:
+        length_instruction = (
+            "Length: exactly 2 sentences with distinct rhythm."
+        )
+    elif interest_score <= 6:
+        length_instruction = (
+            "Length: exactly 3 sentences; vary sentence length."
+        )
+    else:
+        length_instruction = (
+            "Length: 4 to 5 sentences; rich but controlled."
+        )
+
+    variation_steer = random.choice(ITEM_VARIATION_STEERS)
+    llm_instructions = f"{ITEM_INSTRUCTIONS}\n{length_instruction}\n{variation_steer}"
 
     item_block = "\n".join(f"{key}:{value}" for key, value in properties.items())
 
-    prompt = f"""{item_block}"""
+    prompt = f"""Item properties:
+{item_block}
+
+Write only the final description text."""
 
     reasoning_level = (
         {"effort": "high"}
@@ -85,16 +136,21 @@ def generate_room_description(
     reasoning_level={"effort": "high"},
 ):
     if room_size == "small":
-        room_size_modifier = "The description should be two sentences long."
+        room_size_modifier = "Length: exactly 2 sentences."
     elif room_size == "medium":
-        room_size_modifier = "The description should be four sentences long"
+        room_size_modifier = "Length: exactly 4 sentences."
     else:
-        room_size_modifier = "The description should be six sentences long"
-    llm_instructions = ROOM_INSTRUCTIONS + room_size_modifier
-    prompt = f"""room ambience: {room_ambience}
-    strucural features: {room_structural_features}
-    thematic items: {room_thematic_items}
-    general items: {room_items}"""
+        room_size_modifier = "Length: exactly 6 sentences."
+    variation_steer = random.choice(ROOM_VARIATION_STEERS)
+    llm_instructions = f"{ROOM_INSTRUCTIONS}\n{room_size_modifier}\n{variation_steer}"
+    prompt = f"""Room properties:
+room size: {room_size}
+room ambience: {room_ambience}
+structural features: {room_structural_features}
+thematic items: {room_thematic_items}
+general items: {room_items}
+
+Write only the final description text."""
     ai_description = client.responses.create(
         model=gptmodel, instructions=llm_instructions, input=prompt, reasoning=reasoning_level
     )

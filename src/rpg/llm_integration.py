@@ -23,15 +23,18 @@ Your output must feel handcrafted, grounded, and varied.
 Hard constraints:
 - Return prose only. No lists, labels, headings, quotation marks, or meta commentary.
 - Never mention exact numeric values, percentages, currency symbols, equations, or stat names.
-- Do not mention game terms like "player", "inventory", "rarity tier", "interest score", or "deviation label".
+- Do not mention game terms like "player", "inventory", "rarity tier", "interest score",
+  or "deviation label".
 - Do not contradict provided item properties.
 - If a property is about average, keep it subtle.
-- If a property is unusual, imply it through material, wear, balance, craftsmanship, provenance, or aura.
+- If a property is unusual, imply it through material, wear, balance, craftsmanship, provenance,
+  or aura.
 
 Variety rules:
 - Avoid repetitive openings ("This item...", "You see...", "It appears...").
 - Vary sentence rhythm and structure across generations.
-- Change descriptive angle each time (craftsmanship, prior owner traces, practical use, hidden history, quiet menace).
+- Change descriptive angle each time (craftsmanship, prior owner traces, practical use,
+  hidden history, quiet menace).
 - Prefer concrete nouns and verbs over stacked adjectives.
 - Keep tone restrained: eerie and evocative, never melodramatic.
 
@@ -46,14 +49,17 @@ Hard constraints:
 - Write in second person ("you").
 - Return prose only. No lists, headings, labels, or meta text.
 - Mention only the provided ambience, structural features, thematic items, and general items.
-- You may infer plausible placement/history, but do not invent additional named objects or architecture.
-- Keep the room believable as recently abandoned (days, not long-decayed ages), unless input strongly implies otherwise.
+- You may infer plausible placement/history,
+  but do not invent additional named objects or architecture.
+- Keep the room believable as recently abandoned (days, not long-decayed ages),
+  unless input strongly implies otherwise.
 
 Composition rules:
 - Blend ambience, structure, and items naturally; do not list categories.
 - Place items in sensible positions (shelved, hung, stacked, wedged, laid out, half-hidden).
 - Highlight a few striking details and let the rest support atmosphere.
-- Vary openings and cadence: sometimes start with sound/smell/light/temperature, other times with spatial layout.
+- Vary openings and cadence: sometimes start with sound/smell/light/temperature,
+  other times with spatial layout.
 - Avoid repeated templates and mirrored sentence patterns between generations.
 - End with a subtle hook that invites curiosity without adding new concrete objects.
 
@@ -81,22 +87,14 @@ ROOM_VARIATION_STEERS = [
 def generate_description(properties: dict, interest_score=0, gptmodel="gpt-5.2"):
 
     if interest_score <= 2:
-        length_instruction = (
-            "Length: exactly 1 sentence, compact and concrete."
-        )
+        length_instruction = "Length: exactly 1 sentence, compact and concrete."
 
     elif interest_score <= 4:
-        length_instruction = (
-            "Length: exactly 2 sentences with distinct rhythm."
-        )
+        length_instruction = "Length: exactly 2 sentences with distinct rhythm."
     elif interest_score <= 6:
-        length_instruction = (
-            "Length: exactly 3 sentences; vary sentence length."
-        )
+        length_instruction = "Length: exactly 3 sentences; vary sentence length."
     else:
-        length_instruction = (
-            "Length: 4 to 5 sentences; rich but controlled."
-        )
+        length_instruction = "Length: 4 to 5 sentences; rich but controlled."
 
     variation_steer = random.choice(ITEM_VARIATION_STEERS)
     llm_instructions = f"{ITEM_INSTRUCTIONS}\n{length_instruction}\n{variation_steer}"
